@@ -1,0 +1,82 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'yarn'
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run Linter
+        run: |
+          # Install ESLint if not present
+          yarn add --dev eslint || true
+          # Create basic ESLint config if missing
+          if [ ! -f .eslintrc.js ] && [ ! -f .eslintrc.json ] && [ ! -f .eslintrc ]; then
+            echo 'module.exports = {extends: ["eslint:recommended"],env: {browser: true, es6: true, jest: true},rules: {}};' > .eslintrc.js
+          fi
+          # Run ESLint
+          yarn eslint . --ext .js,.jsx --max-warnings=0
+
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'yarn'
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run Tests
+        run: yarn test --ci --coverage --maxWorkers=2
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/*.lcov
+          fail_ci_if_error: true
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'yarn'
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build
+        run: |
+          # Bundle JavaScript for Android (React Native)
+          npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/main.jsbundle --assets-dest android || \
+          npx react-native bundle --platform android --dev false --entry-file App.js --bundle-output android/main.jsbundle --assets-dest android
+          # Verify bundle was created
+          [ -f android/main.jsbundle ] || (echo "Bundle failed" && exit 1)
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy
+        run: |
+          # Placeholder for deployment command
+          echo "Deployment logic would go here (e.g., Expo EAS build, Firebase, etc.)"
+          echo "For now, this step validates the pipeline reaches deploy stage."
+          exit 0
