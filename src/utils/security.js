@@ -14,7 +14,7 @@ const XSS_PATTERNS = [
   /<script[\s>]/i,
   /<\/script>/i,
   /javascript\s*:/i,
-  /on\w+\s*=\s*['"]?[^'"]*['"]?/i,
+  /on(?:click|load|unload|change|submit|reset|select|blur|focus|key(?:down|press|up)|mouse(?:enter|leave|over|out|down|up|move)|dblclick|contextmenu)\s*=\s*['"]?[^'"]*['"]?/i,
   /<iframe\b[^>]*>/i,
   /<embed\b[^>]*>/i,
   /<object\b[^>]*>/i,
@@ -44,8 +44,13 @@ export function sanitizeString(input) {
     return '';
   }
 
-  let sanitized = input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  sanitized = sanitized.replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
+  let sanitized = input
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/`/g, '&#x60;');
 
   sanitized = sanitized.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
 
@@ -80,7 +85,7 @@ export function isValidEmail(email) {
     return false;
   }
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-  return emailRegex.test(email.trim()) && email.length <= 254;
+  return email.length <= 254 && emailRegex.test(email.trim());
 }
 
 export function isValidURL(url) {
