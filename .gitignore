@@ -1,3 +1,24 @@
 node_modules/
 .expo/
 npm-debug.*
+
+# Environment
+.env
+.env.local
+
+# Coverage
+coverage/
+
+# Build artifacts
+dist/
+*.bundle.js
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
