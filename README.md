@@ -218,3 +218,25 @@ There are a few steps you may want to take to troubleshoot these kinds of errors
 If you're not able to scan the QR code, make sure your phone's camera is focusing correctly, and also make sure that the contrast on the two colors in your terminal is high enough. For example, WebStorm's default themes may [not have enough contrast](https://github.com/react-community/create-react-native-app/issues/49) for terminal QR codes to be scannable with the system barcode scanners that the Expo app uses.
 
 If this causes problems for you, you may want to try changing your terminal's color theme to have more contrast, or running Create React Native App from a different terminal. You can also manually enter the URL printed by the packager script in the Expo app's search bar to load it manually.
+
+## Security
+
+### Dependency Hygiene
+- A `package-lock.json` commit is required to ensure deterministic, reproducible installs. Do not delete it.
+- Run `npm audit` regularly (or `npm run audit`) to check for known vulnerabilities.
+- The `postinstall` hook automatically runs `npm audit --audit-level=high` after every install.
+- Keep all dependencies up to date. Use `npm outdated` to see which packages have newer versions.
+
+### Secret Management
+- **Never** commit API keys, tokens, passwords, or any other secrets to version control.
+- Use environment variables for all sensitive configuration. The project supports `.env` files (listed in `.gitignore`) for local development.
+- Add any new secret‑holding files to `.gitignore` before the first commit.
+- If a secret is accidentally committed, rotate it immediately and remove it from the repository history.
+
+### Node & npm Versions
+- This project requires Node >= 12 and npm >= 6 (see `engines` in `package.json`).
+- An `.nvmrc` file is provided — use `nvm use` (or your version manager's equivalent) to switch to the correct Node version.
+- Older Node versions may contain unpatched vulnerabilities; running a supported version is mandatory.
+
+### Reporting a Vulnerability
+If you discover a security issue, please open a [GitHub Security Advisory](https://github.com/juninmd/aniversario-app/security/advisories) or contact the maintainers directly. Do not disclose it publicly until a fix has been released.
