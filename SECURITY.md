@@ -8,8 +8,8 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability, please report it by opening an issue with the label `security`.
-Do not disclose the vulnerability publicly until it has been addressed.
+If you discover a security vulnerability, please report it privately via GitHub Security Advisories or by emailing the maintainers directly.
+Do not open a public issue for security vulnerabilities.
 
 ## Security Measures
 
