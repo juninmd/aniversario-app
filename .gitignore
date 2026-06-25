@@ -1,3 +1,32 @@
 node_modules/
 .expo/
 npm-debug.*
+
+# Environment and secrets
+.env
+.env.local
+.env.production
+.env.*.local
+*.key
+*.pem
+*.p12
+*.pfx
+secrets.*
+
+# IDE and OS
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.iml
+
+# Build artifacts
+*.jsbundle
+*.bundle
+dist/
+build/
+
+# Coverage
+coverage/
