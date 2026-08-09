@@ -1,3 +1,29 @@
 {
-  "extends": ["config:js-app"]
+  "extends": [
+    "config:js-app",
+    "security:openssf-scorecard",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "labels": ["dependencies", "security"],
+  "vulnerabilityAlerts": {
+    "labels": ["security", "vulnerability"],
+    "assignees": []
+  },
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["patch"],
+      "matchCurrentVersion": ">=1.0.0",
+      "automerge": true
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true
+    },
+    {
+      "matchCategories": ["ci"],
+      "labels": ["ci", "dependencies"]
+    }
+  ],
+  "schedule": ["every weekend"],
+  "timezone": "America/Sao_Paulo"
 }
