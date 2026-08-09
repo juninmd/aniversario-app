@@ -6,8 +6,12 @@
   ],
   "labels": ["dependencies", "security"],
   "vulnerabilityAlerts": {
+    "enabled": true,
     "labels": ["security", "vulnerability"],
     "assignees": []
+  },
+  "lockFileMaintenance": {
+    "enabled": true
   },
   "packageRules": [
     {
@@ -25,5 +29,8 @@
     }
   ],
   "schedule": ["every weekend"],
-  "timezone": "America/Sao_Paulo"
+  "timezone": "America/Sao_Paulo",
+  "npm": {
+    "postUpdateOptions": ["npmDedupe"]
+  }
 }

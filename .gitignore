@@ -5,22 +5,28 @@ npm-debug.*
 # Environment and secrets
 .env
 .env.local
+.env.production
 .env.*.local
 *.key
 *.pem
 *.p12
+*.pfx
+secrets.*
 secrets/
 config/secrets.yml
 
 # IDE and editor files
-.idea/
-.vscode/
+.DS_Store
 *.swp
 *.swo
 *~
-.DS_Store
+.vscode/
+.idea/
+*.iml
 
 # Build artifacts
+*.jsbundle
+*.bundle
 build/
 dist/
 *.tsbuildinfo
