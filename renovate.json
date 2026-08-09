@@ -1,14 +1,35 @@
 {
-  "extends": ["config:js-app", "security:openssf-scorecard"],
+  "extends": [
+    "config:js-app",
+    "security:openssf-scorecard",
+    "helpers:pinGitHubActionDigests"
+  ],
   "labels": ["dependencies", "security"],
   "vulnerabilityAlerts": {
     "enabled": true,
-    "labels": ["security"]
+    "labels": ["security", "vulnerability"],
+    "assignees": []
   },
   "lockFileMaintenance": {
     "enabled": true
   },
-  "schedule": ["before 9am on Monday"],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["patch"],
+      "matchCurrentVersion": ">=1.0.0",
+      "automerge": true
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true
+    },
+    {
+      "matchCategories": ["ci"],
+      "labels": ["ci", "dependencies"]
+    }
+  ],
+  "schedule": ["every weekend"],
+  "timezone": "America/Sao_Paulo",
   "npm": {
     "postUpdateOptions": ["npmDedupe"]
   }

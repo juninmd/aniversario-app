@@ -12,8 +12,10 @@ npm-debug.*
 *.p12
 *.pfx
 secrets.*
+secrets/
+config/secrets.yml
 
-# IDE and OS
+# IDE and editor files
 .DS_Store
 *.swp
 *.swo
@@ -25,8 +27,17 @@ secrets.*
 # Build artifacts
 *.jsbundle
 *.bundle
-dist/
 build/
+dist/
+*.tsbuildinfo
+*.bundle.js
+
+# Logs
+logs/
+*.log
 
 # Coverage
 coverage/
+
+# OS
+Thumbs.db
