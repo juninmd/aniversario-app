@@ -24,7 +24,14 @@ config/secrets.yml
 build/
 dist/
 *.tsbuildinfo
+*.bundle.js
 
 # Logs
 logs/
 *.log
+
+# Coverage
+coverage/
+
+# OS
+Thumbs.db
